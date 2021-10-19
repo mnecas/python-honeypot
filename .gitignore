@@ -1,3 +1,11 @@
+# Custom honeypot ignores
+ssh.key
+ssh.key.pub
+paramiko.log
+logins.txt
+index.html*
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
