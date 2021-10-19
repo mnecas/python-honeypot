@@ -28,24 +28,27 @@ def handle_ssh_connection(client, addr, ssh_key):
     host_key = paramiko.RSAKey(filename=ssh_key)
     transport.add_server_key(host_key)
     server = SSHServer(addr)
-    transport.start_server(server=server)
-    channel = transport.accept(1)
-    if channel is not None:
-        channel.close()
+    try:
+        transport.start_server(server=server)
+        channel = transport.accept(1)
+        if channel is not None:
+            channel.close()
+    except ConnectionResetError:
+        print('Closed ssh connection from: '+ addr[0])
 
-
-def start_ssh_honeypot(ip='0.0.0.0', ssh_port=22, ssh_key='ssh.key'):
+def start_ssh_honeypot(ip='0.0.0.0', port=22, ssh_key='ssh.key'):
     try:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        server_socket.bind((ip, ssh_port))
+        server_socket.bind((ip, port))
         server_socket.listen(100)
         paramiko.util.log_to_file('paramiko.log')
 
         while True:
             try:
                 conn, addr = server_socket.accept()
-                _thread.start_new_thread(handle_ssh_connection, (conn, addr, ssh_key, ))
+                t = threading.Thread(target=handle_ssh_connection, args=(conn, addr, ssh_key, ))
+                t.start()
             except Exception as e:
                 print(e)
 
@@ -53,4 +56,4 @@ def start_ssh_honeypot(ip='0.0.0.0', ssh_port=22, ssh_key='ssh.key'):
         print(e)
 
 if __name__ == "__main__":
-    start_ssh_honeypot()
+    start_ssh_honeypot(port=8022)
