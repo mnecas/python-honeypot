@@ -15,8 +15,8 @@ class SSHServer(paramiko.ServerInterface):
     def check_auth_password(self, username, password):
         LOGFILE_LOCK.acquire()
         try:
-            with open('ssh_logins.log',"a") as f:
-                print("Login: "+ self.addr[0] + ";" + username + ";" + password)
+            with open('ssh_logins.log', "a") as f:
+                print("Login: " + self.addr[0] + ";" + username + ";" + password)
                 f.write(self.addr[0]+";"+username + ";" + password + "\n")
         finally:
             LOGFILE_LOCK.release()
@@ -30,7 +30,7 @@ def handle_ssh_connection(client, addr, ssh_key):
     server = SSHServer(addr)
     transport.start_server(server=server)
     channel = transport.accept(1)
-    if not channel is None:
+    if channel is not None:
         channel.close()
 
 
@@ -40,12 +40,12 @@ def start_ssh_honeypot(ip='0.0.0.0', ssh_port=22, ssh_key='ssh.key'):
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server_socket.bind((ip, ssh_port))
         server_socket.listen(100)
-        paramiko.util.log_to_file('paramiko.log') 
+        paramiko.util.log_to_file('paramiko.log')
 
         while True:
             try:
                 conn, addr = server_socket.accept()
-                _thread.start_new_thread(handle_ssh_connection,(conn, addr, ssh_key, ))
+                _thread.start_new_thread(handle_ssh_connection, (conn, addr, ssh_key, ))
             except Exception as e:
                 print(e)
 
