@@ -12,6 +12,7 @@ def start_http_honeypot(ip='0.0.0.0', port=80):
                 conn, addr = server_socket.accept()
                 req = conn.recv(1024)
                 print(req)
+                conn.sendall(b'HELLO WORLD')
                 conn.close()
             except Exception as e:
                 print(e)

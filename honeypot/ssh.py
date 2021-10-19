@@ -15,7 +15,7 @@ class SSHServer(paramiko.ServerInterface):
     def check_auth_password(self, username, password):
         LOGFILE_LOCK.acquire()
         try:
-            with open('ssh_logins.log', "a") as f:
+            with open('logs/ssh_logins.log', "a") as f:
                 print("Login: " + self.addr[0] + ";" + username + ";" + password)
                 f.write(self.addr[0]+";"+username + ";" + password + "\n")
         finally:
@@ -43,7 +43,7 @@ def start_ssh_honeypot(ip='0.0.0.0', port=22, ssh_key='keys/ssh.key'):
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server_socket.bind((ip, port))
         server_socket.listen(100)
-        paramiko.util.log_to_file('paramiko.log')
+        paramiko.util.log_to_file('logs/paramiko.log')
 
         while True:
             try:

@@ -15,6 +15,7 @@ def start_https_honeypot(ip='0.0.0.0', port=443):
                 conn, addr = wrapped_socket.accept()
                 req = conn.recv(1024)
                 print(req)
+                conn.sendall(b'HELLO WORLD')
                 conn.close()
             except Exception as e:
                 print(e)

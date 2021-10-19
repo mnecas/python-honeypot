@@ -1,6 +1,4 @@
 # Custom honeypot ignores
-paramiko.log
-logins.txt
 index.html*
 
 

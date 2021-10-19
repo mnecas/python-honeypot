@@ -26,7 +26,7 @@ For server on which you have configured ports you can run:
 
 `python3 main.py`
 
-## Testing
+## Dev testing
 
 ### HTTPS Test
 
@@ -36,6 +36,8 @@ For server on which you have configured ports you can run:
 
 `curl -d "param1=value1" -X POST http://localhost:8080`
 
-### SSH Test
+### SSH/SFTP Test
 
 `ssh root@localhost -p 8022`
+
+`sftp -P 8022 root@localhost`
