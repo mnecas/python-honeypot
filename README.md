@@ -5,11 +5,15 @@
 ### SSH
 
 You need the ssh-key which malitous user will see and try to connect to it.
-`ssh-keygen -t rsa -f ssh.key`
+`ssh-keygen -t rsa -f keys/ssh.key`
 
 Get your IP address with command
 `ip a`
 so you know to which IP you should connect to.
+
+### HTTPS
+
+`openssl req -x509 -nodes -subj '/CN=localhost'  -newkey rsa:4096 -keyout keys/key.pem -out keys/cert.pem -days 365`
 
 ## Run
 
@@ -21,3 +25,17 @@ so for example the ssh honeypot is opened on port 8022.
 For server on which you have configured ports you can run:
 
 `python3 main.py`
+
+## Testing
+
+### HTTPS Test
+
+`curl -d "param1=value1" -X POST https://localhost:8043 -k`
+
+### HTTP Test
+
+`curl -d "param1=value1" -X POST http://localhost:8080`
+
+### SSH Test
+
+`ssh root@localhost -p 8022`

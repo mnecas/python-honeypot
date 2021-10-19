@@ -1,6 +1,4 @@
 # Custom honeypot ignores
-ssh.key
-ssh.key.pub
 paramiko.log
 logins.txt
 index.html*

@@ -34,9 +34,10 @@ def handle_ssh_connection(client, addr, ssh_key):
         if channel is not None:
             channel.close()
     except ConnectionResetError:
-        print('Closed ssh connection from: '+ addr[0])
+        print('Closed ssh connection from: ' + addr[0])
 
-def start_ssh_honeypot(ip='0.0.0.0', port=22, ssh_key='ssh.key'):
+
+def start_ssh_honeypot(ip='0.0.0.0', port=22, ssh_key='keys/ssh.key'):
     try:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
