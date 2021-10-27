@@ -3,7 +3,6 @@ import honeypot.https
 import honeypot.ssh
 import argparse
 import threading
-import signal
 
 
 def get_args():
