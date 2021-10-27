@@ -41,16 +41,3 @@ For server on which you have configured ports you can run:
 `ssh root@localhost -p 8022`
 
 `sftp -P 8022 root@localhost`
-
-## ansible deploy
-
-- tar honeypot project
-- copy to remote host
-- move ssh to diffrent port
-- disable user password login
-- setup firewalld
-- restart firewalld
-- setup systemd service
-- start the service
-
-## rsync vs rsyslog
