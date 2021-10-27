@@ -1,7 +1,5 @@
 import socket
-import sys
 import threading
-import _thread
 import paramiko
 
 LOGFILE_LOCK = threading.Lock()

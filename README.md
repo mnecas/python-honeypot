@@ -20,11 +20,11 @@ so you know to which IP you should connect to.
 By default the honepot runs on proper ports in dev version it run with prefix of 80
 so for example the ssh honeypot is opened on port 8022.
 
-`python3 main.py --dev`
+`python3 honeypot.py --dev`
 
 For server on which you have configured ports you can run:
 
-`python3 main.py`
+`python3 honeypot.py`
 
 ## Dev testing
 
@@ -41,3 +41,16 @@ For server on which you have configured ports you can run:
 `ssh root@localhost -p 8022`
 
 `sftp -P 8022 root@localhost`
+
+## ansible deploy
+
+- tar honeypot project
+- copy to remote host
+- move ssh to diffrent port
+- disable user password login
+- setup firewalld
+- restart firewalld
+- setup systemd service
+- start the service
+
+## rsync vs rsyslog
