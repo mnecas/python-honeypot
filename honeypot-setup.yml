@@ -2,9 +2,6 @@
 - hosts: controller
   remote_user: root
   tasks:
-    - name: Rebuild of rpm db (needed after ssh port swtich)
-      command: rpm --rebuilddb
-
     - name: Install firewalld on remote server
       package:
         name: firewalld
@@ -86,11 +83,15 @@
       lineinfile:
         path: /etc/ssh/sshd_config
         line: PasswordAuthentication no
+        regexp: 'PasswordAuthentication yes'
 
     - name: Restart sshd
       systemd:
         name: sshd
         state: restarted
+
+    - name: Rebuild of rpm db (needed after ssh port swtich)
+      command: rpm --rebuilddb
 
     - name: Enable python-honeypot.service and start the honeypot
       systemd:
