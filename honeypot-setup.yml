@@ -2,6 +2,25 @@
 - hosts: controller
   remote_user: root
   tasks:
+    - name: Rebuild of rpm db (needed after ssh port swtich)
+      command: rpm --rebuilddb
+
+    - name: Install firewalld on remote server
+      package:
+        name: firewalld
+        state: present
+
+    - name: Install python3 on remote server
+      package:
+        name: python3
+        state: present
+
+    - name: Make sure that the firewalld is running
+      systemd:
+        name: firewalld
+        state: started
+        enabled: yes
+
     - name: Compress directory honeypot into honeypot.tar.gz
       archive:
         path: ../python-honeypot
@@ -21,19 +40,27 @@
         dest: /root/
         remote_src: yes
 
+    - name: Update pip
+      command: python3 -m pip install --upgrade pip
+
+    - name: Install pip dependencies
+      pip:
+        name: paramiko
+
     - name: Create /var/log/python-honeypot dir for logs
       file:
         path: /var/log/python-honeypot
         state: directory
         mode: '0600'
 
-    - name: Remove ssh key
-      ansible.builtin.file:
+    - name: Check that the somefile.conf exists
+      stat:
         path: /root/.ssh/honeypot.key
-        state: absent
+      register: stat_result
 
     - name: Create fake SSH keys
       command: ssh-keygen -t rsa -f /root/.ssh/honeypot.key -N ""
+      when: not stat_result.stat.exists
 
     - name: Create fake SSL cert and key
       command: openssl req -x509 -nodes -subj '/CN=localhost'  -newkey rsa:4096 -keyout /etc/pki/tls/private/key.pem -out /etc/pki/tls/certs/cert.pem -days 365
@@ -44,20 +71,29 @@
         dest: /lib/systemd/system
         remote_src: yes
 
-    - name: Copy python-honeypot.socket to systemd
-      copy:
-        src: /root/python-honeypot/python-honeypot.socket
-        dest: /lib/systemd/system
-        remote_src: yes
-
-    #- name: Add 8080 to firewall
-    #  command: firewall-cmd --permanent --add-port=8080/tcp
+    - name: Add 6000 to firewall
+      command: firewall-cmd --permanent --add-port=6000/tcp
 
     - name: Reload firewalld
       command: firewall-cmd --reload
+
+    - name: Insert a line at the end of a file.
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        line: Port 6000
+
+    - name: Insert a line at the end of a file.
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        line: PasswordAuthentication no
+
+    - name: Restart sshd
+      systemd:
+        name: sshd
+        state: restarted
 
     - name: Enable python-honeypot.service and start the honeypot
       systemd:
         name: python-honeypot.service
         state: started
-        #enabled: yes
+        enabled: yes

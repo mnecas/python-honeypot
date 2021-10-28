@@ -1,5 +1,2 @@
 [controller]
-honeypot-controller
-[nodes]
-honeypot1
-honeypot2
+honeypot1 ansible_port=6000

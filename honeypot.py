@@ -19,7 +19,7 @@ if __name__ == "__main__":
         print("Server started in production mode.")
         threads.append(threading.Thread(target=honeypot.ssh.start_ssh_honeypot))
         threads.append(threading.Thread(target=honeypot.http.start_http_honeypot))
-        threads.append(threading.Thread(target=honeypot.http.start_https_honeypot))
+        threads.append(threading.Thread(target=honeypot.https.start_https_honeypot))
     else:
         print("Server started in dev mode.")
         # Create thread list with all honepot services

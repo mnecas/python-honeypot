@@ -1,11 +1,11 @@
 [Unit]
 Description=python honeypot server
-After=network.target
+After=multi-user.target
 
 [Service]
 Type=simple
 Restart=always
-ExecStart=python3 /root/python-honeypot/honeypot.py
+ExecStart=python3 /root/python-honeypot/honeypot.py --pord
 
 [Install]
 WantedBy=multi-user.target
