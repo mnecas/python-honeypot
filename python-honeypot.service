@@ -5,7 +5,7 @@ After=multi-user.target
 [Service]
 Type=simple
 Restart=always
-ExecStart=/usr/sbin/python3 /usr/sbin/honeypot.py
+ExecStart=python3 /root/python-honeypot/honeypot.py
 
 [Install]
 WantedBy=multi-user.target

@@ -5,7 +5,7 @@
 ### SSH
 
 You need the ssh-key which malitous user will see and try to connect to it.
-`ssh-keygen -t rsa -f keys/ssh.key`
+`ssh-keygen -t rsa -f ~/.ssh/honeypot.key`
 
 Get your IP address with command
 `ip a`
@@ -13,7 +13,7 @@ so you know to which IP you should connect to.
 
 ### HTTPS
 
-`openssl req -x509 -nodes -subj '/CN=localhost'  -newkey rsa:4096 -keyout keys/key.pem -out keys/cert.pem -days 365`
+`openssl req -x509 -nodes -subj '/CN=localhost'  -newkey rsa:4096 -keyout /etc/pki/tls/private/key.pem -out /etc/pki/tls/certs/cert.pem -days 365`
 
 ## Run
 

@@ -1,0 +1,46 @@
+---
+- hosts: controller
+  remote_user: root
+  tasks:
+    - name: Compress directory honeypot into honeypot.tar.gz
+      archive:
+        path: ../python-honeypot
+        dest: /tmp/honeypot.tgz
+      delegate_to: localhost
+
+    - name: Copy honeypot.tar.gz to remote server
+      copy:
+        src: /tmp/honeypot.tgz
+        dest: /root/honeypot.tgz
+        owner: root
+        group: root
+
+    - name: Extract honeypot on the remote server
+      unarchive:
+        src: /root/honeypot.tgz
+        dest: /root/
+        remote_src: yes
+
+    - name: Create /var/log/python-honeypot dir for logs
+      file:
+        path: /var/log/python-honeypot
+        state: directory
+        mode: '0600'
+
+    - name: Create fake SSH keys
+      command: ssh-keygen -t rsa -f /root/.ssh/honeypot.key -N ""
+
+    - name: Create fake SSL cert and key
+      command: openssl req -x509 -nodes -subj '/CN=localhost'  -newkey rsa:4096 -keyout /etc/pki/tls/private/key.pem -out /etc/pki/tls/certs/cert.pem -days 365
+
+    - name: Copy python-honeypot.service to systemd
+      copy:
+        src: /root/python-honeypot/python-honeypot.service
+        dest: /lib/systemd/system
+        remote_src: yes
+
+    - name: Enable python-honeypot.service
+      systemd:
+        name: python-honeypot.service
+        state: started
+        #enabled: yes

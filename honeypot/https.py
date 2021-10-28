@@ -8,7 +8,7 @@ def start_https_honeypot(ip='0.0.0.0', port=443):
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server_socket.bind((ip, port))
         server_socket.listen(100)
-        wrapped_socket = ssl.wrap_socket(server_socket, "keys/key.pem", "keys/cert.pem", True)
+        wrapped_socket = ssl.wrap_socket(server_socket, "/etc/pki/tls/private/key.pem", "/etc/pki/tls/certs/cert.pem", True)
 
         while True:
             try:

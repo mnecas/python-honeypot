@@ -1,0 +1,5 @@
+[controller]
+honeypot-controller
+[nodes]
+honeypot1
+honeypot2

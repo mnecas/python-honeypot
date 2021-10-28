@@ -1,0 +1,41 @@
+---
+- hosts: controller
+  remote_user: root
+  tasks:
+    - name: Remove honeypot.tgz from remote server
+      ansible.builtin.file:
+        path: /root/honeypot.tgz
+        state: absent
+
+    - name: Remove python-honeypot dir
+      ansible.builtin.file:
+        path: /root/python-honeypot
+        state: absent
+
+    - name: Remove ssh key
+      ansible.builtin.file:
+        path: /root/.ssh/honeypot.key
+        state: absent
+
+    - name: Remove ssl certs
+      ansible.builtin.file:
+        path: /etc/ssl/certs/cert.pem
+        state: absent
+
+    - name: Remove ssl key
+      ansible.builtin.file:
+        path: /etc/ssl/private/key.pem
+        state: absent
+
+    - name: Remove python-honeypot dir
+      ansible.builtin.file:
+        path: /root/python-honeypot/python-honeypot.service
+        state: absent
+    
+    - name: Disable python-honeypot.service
+      systemd:
+        name: python-honeypot.service
+        state: stopped
+        enabled: no
+
+    
