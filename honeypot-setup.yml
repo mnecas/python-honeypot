@@ -27,6 +27,11 @@
         state: directory
         mode: '0600'
 
+    - name: Remove ssh key
+      ansible.builtin.file:
+        path: /root/.ssh/honeypot.key
+        state: absent
+
     - name: Create fake SSH keys
       command: ssh-keygen -t rsa -f /root/.ssh/honeypot.key -N ""
 
@@ -39,7 +44,19 @@
         dest: /lib/systemd/system
         remote_src: yes
 
-    - name: Enable python-honeypot.service
+    - name: Copy python-honeypot.socket to systemd
+      copy:
+        src: /root/python-honeypot/python-honeypot.socket
+        dest: /lib/systemd/system
+        remote_src: yes
+
+    #- name: Add 8080 to firewall
+    #  command: firewall-cmd --permanent --add-port=8080/tcp
+
+    - name: Reload firewalld
+      command: firewall-cmd --reload
+
+    - name: Enable python-honeypot.service and start the honeypot
       systemd:
         name: python-honeypot.service
         state: started

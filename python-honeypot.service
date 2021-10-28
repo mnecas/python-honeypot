@@ -1,6 +1,7 @@
 [Unit]
 Description=python honeypot server
-After=multi-user.target
+After=network.target python-honeypot.socket
+Requires=python-honeypot.socket
 
 [Service]
 Type=simple

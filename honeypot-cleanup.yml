@@ -12,6 +12,11 @@
         path: /root/python-honeypot
         state: absent
 
+    - name: Remove /var/log/python-honeypot
+      ansible.builtin.file:
+        path: /var/log/python-honeypot
+        state: absent
+
     - name: Remove ssh key
       ansible.builtin.file:
         path: /root/.ssh/honeypot.key
@@ -27,15 +32,18 @@
         path: /etc/ssl/private/key.pem
         state: absent
 
-    - name: Remove python-honeypot dir
-      ansible.builtin.file:
-        path: /root/python-honeypot/python-honeypot.service
-        state: absent
-    
     - name: Disable python-honeypot.service
       systemd:
         name: python-honeypot.service
         state: stopped
         enabled: no
 
-    
+    - name: Remove python-honeypot.service from systemd
+      ansible.builtin.file:
+        path: /lib/systemd/system/python-honeypot.service
+        state: absent
+
+    - name: Remove python-honeypot.socket from systemd
+      ansible.builtin.file:
+        path: /lib/systemd/system/python-honeypot.socket
+        state: absent

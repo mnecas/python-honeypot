@@ -1,0 +1,9 @@
+[Unit]
+Description=Python Honeypot Socket
+PartOf=python-honeypot.service
+
+[Socket]
+ListenStream=127.0.0.1:8022
+
+[Install]
+WantedBy=sockets.target
