@@ -35,7 +35,7 @@ def handle_ssh_connection(client, addr, ssh_key):
         print('Closed ssh connection from: ' + addr[0])
 
 
-def start_ssh_honeypot(ip='0.0.0.0', port=22, ssh_key='~/.ssh/honeypot.key'):
+def start_ssh_honeypot(ip='0.0.0.0', port=22, ssh_key='/root/.ssh/honeypot.key'):
     try:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -47,6 +47,7 @@ def start_ssh_honeypot(ip='0.0.0.0', port=22, ssh_key='~/.ssh/honeypot.key'):
             try:
                 conn, addr = server_socket.accept()
                 t = threading.Thread(target=handle_ssh_connection, args=(conn, addr, ssh_key, ))
+                t.deamon = True
                 t.start()
             except Exception as e:
                 print(e)
