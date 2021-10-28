@@ -11,9 +11,10 @@ def start_http_honeypot(ip='0.0.0.0', port=80):
             try:
                 conn, addr = server_socket.accept()
                 req = conn.recv(1024)
-                print(req)
                 conn.sendall(b'HELLO WORLD')
                 conn.close()
+                with open('/var/log/python-honeypot/https.log', "a") as f:
+                    f.write(addr[0]+";"+str(req)+"\n")
             except Exception as e:
                 print(e)
 
