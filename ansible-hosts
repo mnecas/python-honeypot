@@ -1,2 +1,2 @@
-[controller]
-honeypot1 ansible_port=6000
+[honeypots]
+honeypot1

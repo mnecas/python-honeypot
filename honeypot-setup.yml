@@ -1,5 +1,5 @@
 ---
-- hosts: controller
+- hosts: honeypots
   remote_user: root
   tasks:
     - name: Install firewalld on remote server
