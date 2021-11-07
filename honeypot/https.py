@@ -1,14 +1,16 @@
+from honeypot import configuration
+
 import socket
 import ssl
 
 
-def start_https_honeypot(ip='0.0.0.0', port=443):
+def start_https_honeypot(ip='0.0.0.0'):
     try:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        server_socket.bind((ip, port))
+        server_socket.bind((ip, configuration.settings.https_port))
         server_socket.listen(100)
-        wrapped_socket = ssl.wrap_socket(server_socket, "/etc/pki/tls/private/key.pem", "/etc/pki/tls/certs/cert.pem", True)
+        wrapped_socket = ssl.wrap_socket(server_socket, configuration.settings.ssl_key, configuration.settings.ssl_cert, True)
 
         while True:
             try:
@@ -16,7 +18,7 @@ def start_https_honeypot(ip='0.0.0.0', port=443):
                 req = conn.recv(1024)
                 conn.sendall(b'HELLO WORLD')
                 conn.close()
-                with open('/var/log/python-honeypot/http.log', "a") as f:
+                with open(configuration.settings.https_log, "a") as f:
                     f.write(addr[0]+";"+str(req)+"\n")
             except Exception as e:
                 print(e)
@@ -26,4 +28,5 @@ def start_https_honeypot(ip='0.0.0.0', port=443):
 
 
 if __name__ == "__main__":
-    start_https_honeypot(port=8043)
+    configuration.init('dev')
+    start_https_honeypot()
