@@ -41,3 +41,5 @@ For server on which you have configured ports you can run:
 `ssh root@localhost -p 8022`
 
 `sftp -P 8022 root@localhost`
+
+Matematika s Basticnem be like ヽ༼⊙_⊙༽ﾉ ヽ༼⊙_⊙༽ﾉ ヽ༼⊙_⊙༽ﾉ ヽ༼⊙_⊙༽ﾉ
