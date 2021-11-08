@@ -47,8 +47,8 @@ def start_ssh_honeypot(ip='0.0.0.0'):
 
         while True:
             try:
-                conn, addr = server_socket.accept()
-                t = threading.Thread(target=handle_ssh_connection, args=(conn, addr, ))
+                conn, remote_addr = server_socket.accept()
+                t = threading.Thread(target=handle_ssh_connection, args=(conn, remote_addr, ))
                 t.deamon = True
                 t.start()
             except Exception as e:
