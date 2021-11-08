@@ -42,3 +42,9 @@
       file:
         path: /lib/systemd/system/python-honeypot.service
         state: absent
+
+    - name: Insert a line at the end of a file.
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        line: PasswordAuthentication yes
+        regexp: 'PasswordAuthentication no'

@@ -1,4 +1,4 @@
-from honeypot import configuration, http, https, ssh
+import configuration, http, https, ssh
 import argparse
 import threading
 

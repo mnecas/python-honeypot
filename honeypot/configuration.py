@@ -21,6 +21,7 @@ class Config(object):
                 "ssh_port": 22,
                 "http_port": 80,
                 "https_port": 433,
+                "crontab_time": "* * * * *",
             },
             "dev": {
                 "ssh_key": os.path.abspath("keys/honeypot.key"),
@@ -33,6 +34,7 @@ class Config(object):
                 "ssh_port": 8022,
                 "http_port": 8080,
                 "https_port": 8043,
+                "crontab_time": "0 * * * *",
             }
         }
         self.mode = mode

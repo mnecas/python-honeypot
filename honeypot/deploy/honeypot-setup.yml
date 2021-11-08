@@ -20,7 +20,7 @@
 
     - name: Compress directory honeypot into honeypot.tar.gz
       archive:
-        path: ../python-honeypot
+        path: ../../honeypot
         dest: /tmp/honeypot.tgz
       delegate_to: localhost
 
@@ -64,7 +64,7 @@
 
     - name: Copy python-honeypot.service to systemd
       copy:
-        src: /root/python-honeypot/python-honeypot.service
+        src: /root/honeypot/python-honeypot.service
         dest: /lib/systemd/system
         remote_src: yes
 
