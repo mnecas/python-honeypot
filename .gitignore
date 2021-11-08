@@ -1,7 +1,3 @@
-# Custom honeypot ignores
-index.html*
-
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
