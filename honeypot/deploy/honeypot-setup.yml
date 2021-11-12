@@ -98,3 +98,9 @@
         name: python-honeypot.service
         state: started
         enabled: yes
+
+    - name: Start cronjob for gathering facts
+      cron:
+          name: "a job for reboot"
+          special_time: reboot
+          job: "/some/job.sh"

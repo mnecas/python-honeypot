@@ -1,4 +1,5 @@
-import configuration, http, https, ssh
+import configuration
+import thread_http, thread_https, thread_ssh
 import argparse
 import threading
 
@@ -20,10 +21,10 @@ if __name__ == "__main__":
         print("Server started in dev mode.")
         configuration.init('dev')
     # Create thread list with all honepot services
-    threads.append(threading.Thread(target=ssh.start_ssh_honeypot))
-    threads.append(threading.Thread(target=http.start_http_honeypot))
-    threads.append(threading.Thread(target=https.start_https_honeypot))
+    threads.append(threading.Thread(target=thread_ssh.start_ssh_honeypot))
+    threads.append(threading.Thread(target=thread_http.start_http_honeypot))
 
+    threads.append(threading.Thread(target=thread_https.start_https_honeypot))
     # Start threads
     for thread in threads:
         thread.start()
