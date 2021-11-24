@@ -8,7 +8,7 @@ def home():
 
 @app.route('/ssh', methods=['GET'])  # SSH PAGE
 def ssh():
-    return render_template("ssh.html")
+    return render_template("ssh.html", values=log.query.all())
 
 
 @app.route('/http', methods=['GET'])  # HTTP PAGE
