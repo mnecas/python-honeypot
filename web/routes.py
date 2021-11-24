@@ -1,7 +1,6 @@
-from __main__ import app
-from flask import Blueprint, render_template, request
-from smth import db
-from .models import SSHLog
+from main import app, db
+from flask import Blueprint, render_template, request, jsonify
+from models import SSHLog
 import time
 
 
@@ -42,6 +41,7 @@ def api_ssh():
     else:
         resp = SSHLog.query.all()
         print(resp)
+        return jsonify(resp)
 
     #return render_template("api/ssh.html", values=log.query.all())
     

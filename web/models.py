@@ -1,10 +1,5 @@
-from . import db
+from main import db
 from sqlalchemy.sql import func
-
-
-
-
-
 
 class SSHLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
