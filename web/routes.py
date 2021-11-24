@@ -2,6 +2,7 @@ from main import app, db
 from flask import Blueprint, render_template, request, jsonify
 from models import SSHLog
 import time
+import json
 
 
 
@@ -29,7 +30,8 @@ def https():
 def api_ssh():
     if request.method == 'POST':
         print(request.json)
-        for loge in request.json:
+        for loge in json.loads(request.json):
+            print(loge)
             ip = loge.get("ip") 
             user = loge.get("username")
             pswd = loge.get("password")

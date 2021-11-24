@@ -3,8 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Blueprint, render_template, request
 from os import path
 
-global app
-global db
 app = Flask(__name__)
 db = SQLAlchemy()
 DB_NAME = "honeypot.db"
