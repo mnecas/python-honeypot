@@ -1,7 +1,7 @@
 from main import app, db
 from flask import Blueprint, render_template, request, jsonify
 from models import SSHLog
-import time
+from datetime import datetime
 import json
 
 
@@ -35,10 +35,9 @@ def api_ssh():
             ip = loge.get("ip") 
             user = loge.get("username")
             pswd = loge.get("password")
-            created_time = time.time()
-            login = SSHLog(user, ip, pswd, created_time)
+            login = SSHLog(user=user, ip=ip, password=pswd, created_time=datetime.now())
             db.session.add(login)
-            db.commit()
+            db.session.commit()
         return request.json
     else:
         resp = SSHLog.query.all()
