@@ -44,5 +44,5 @@ if __name__ == "__main__":
     data = get_ssh_log()
     headers = {'Content-Type': 'application/json', 'Accept':'application/json'}
     print(data)
-    x = requests.post(url, data=json.dumps(headers), headers=headers)
+    x = requests.post(url, data=json.dumps(data), headers=headers)
     print("resp", x.text)
