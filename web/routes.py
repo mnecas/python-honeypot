@@ -42,7 +42,7 @@ def api_ssh():
     else:
         resp = SSHLog.query.all()
         print(resp)
-        return jsonify(resp)
+        return jsonify([i.serialize for i in resp])
 
     #return render_template("api/ssh.html", values=log.query.all())
     
