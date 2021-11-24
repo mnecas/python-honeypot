@@ -17,6 +17,7 @@ def get_ssh_log():
     if os.path.exists(configuration.settings.ssh_log):
         resp = []
         with open(configuration.settings.ssh_log, 'r') as f:
+            print(configuration.settings.ssh_log)
             for i in f.readlines():
                 sp = i.split(';')
                 resp.append({
@@ -25,7 +26,7 @@ def get_ssh_log():
                     'password':';'.join(sp[2:]).rstrip(),
                 })
         # Cleanup data from file
-        open(configuration.settings.ssh_log, 'w').close()
+        # open(configuration.settings.ssh_log, 'w').close()
         return json.dumps(resp)
 
 
@@ -39,6 +40,9 @@ if __name__ == "__main__":
     else:
         print("Server started in dev mode.")
         configuration.init('dev')
-    url = f"{args.server_ip}/data/ssh"
-    x = requests.post(url, data = get_ssh_log())
-    print(x)
+    url = f"{args.server_ip}/api/ssh"
+    data = get_ssh_log()
+    headers = {'Content-Type': 'application/json', 'Accept':'application/json'}
+    print(data)
+    x = requests.post(url, data=json.dumps(headers), headers=headers)
+    print("resp", x.text)
