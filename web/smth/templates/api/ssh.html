@@ -1,0 +1,26 @@
+<h1> Table </h1>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>IP</th>
+            <th>Name</th>
+            <th>Password</th>
+            <th>Date</th>
+        </tr>
+        {% for item in values %}
+
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.ip }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.password }}</td>
+            <td>{{ item.date()}}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+
+
+{% endblock %}
