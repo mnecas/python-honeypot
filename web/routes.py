@@ -39,6 +39,7 @@ def api_ssh():
             pswd = loge.get("password")
             login = SSHLog(user=user, ip=ip, password=pswd, created_time=datetime.now())
             db.session.add(login)
+            db.session.commit()
         #db.session.query(SSHLog).delete()
         #db.session.commit()
         return request.json
