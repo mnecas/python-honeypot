@@ -1,9 +1,12 @@
 from main import app, db
 from flask import Blueprint, render_template, request, jsonify
-from models import SSHLog
+from models import SSHLog, HTTPLog
 from datetime import datetime
 import json
+import re
 
+#from web.models import HTTPLog
+#pattern = "\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9];))\b"
 
 
 @app.route('/', methods=['GET'])  # HOME PAGE
@@ -37,7 +40,8 @@ def api_ssh():
             pswd = loge.get("password")
             login = SSHLog(user=user, ip=ip, password=pswd, created_time=datetime.now())
             db.session.add(login)
-            db.session.commit()
+        #db.session.query(SSHLog).delete()
+        #db.session.commit()
         return request.json
     else:
         resp = SSHLog.query.all()
@@ -50,7 +54,23 @@ def api_ssh():
 
 @app.route('/api/http', methods=['GET', 'POST'])  # API-HTTP ENDPOINT PAGE
 def api_http():
-    return "WORKING ON THAT"
+    if request.method == 'POST':        
+        print(request.json)
+        for logs in json.loads(request.json):
+            ip = logs.get("ip")
+            httplogin = HTTPLog(ip=ip, created_time = datetime.now())
+            db.session.add(httplogin)
+            db.session.commit()
+            print(httplogin)
+        #db.session.query(HTTPLog).delete()
+        #db.session.commit()
+        return request.json
+    else:
+        resps = HTTPLog.query.all()
+        print(resps)
+        return jsonify([i.http_serialize for i in resps])
+        
+
 
 
 @app.route('/api/https', methods=['GET', 'POST'])  # API-HTTPS ENDPOINT PAGE

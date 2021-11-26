@@ -21,8 +21,7 @@ def get_http_log():
             for i in f.readlines():
                 sp = i.split(';')
                 resp.append({
-                    'ip': sp[0],
-                    'text': ';'.join(sp[1:]).rstrip(),
+                    'ip': sp[0]
                 })
         # Cleanup data from file
         # open(configuration.settings.http_log, 'w').close()

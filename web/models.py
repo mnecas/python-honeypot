@@ -25,3 +25,22 @@ class SSHLog(db.Model):
             'user': self.user,
             'created_time': dump_datetime(self.created_time)
         }
+
+
+class HTTPLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ip = db.Column(db.String(100))
+    created_time = db.Column(db.DateTime(timezone=True), default=func.now())
+
+    def __repr__(self):
+        return f"HTTPLog(id = {self.id}, ip = {self.ip}, created_time = {self.created_time})"
+
+
+    @property
+    def http_serialize(self):
+        return {
+            'id': self.id,
+            'ip': self.ip,
+            'created_time': dump_datetime(self.created_time)
+        }
+
