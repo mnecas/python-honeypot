@@ -40,9 +40,13 @@
     - name: Update pip
       command: python3 -m pip install --upgrade pip
 
-    - name: Install pip dependencies
+    - name: Install pip paramiko
       pip:
         name: paramiko
+
+    - name: Install pip requests
+      pip:
+        name: requests
 
     - name: Create /var/log/python-honeypot dir for logs
       file:
@@ -64,7 +68,7 @@
 
     - name: Copy python-honeypot.service to systemd
       copy:
-        src: /root/honeypot/python-honeypot.service
+        src: /root/honeypot/deploy/python-honeypot.service
         dest: /lib/systemd/system
         remote_src: yes
 
@@ -101,6 +105,6 @@
 
     - name: Start cronjob for gathering facts
       cron:
-          name: "a job for reboot"
-          special_time: reboot
-          job: "/some/job.sh"
+          name: "Send data to the server"
+          special_time: hourly
+          job: "python3 /root/honeypot/communication.py --prod --server-ip {{ server_ip }}"

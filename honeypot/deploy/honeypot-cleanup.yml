@@ -32,6 +32,11 @@
         path: /etc/ssl/private/key.pem
         state: absent
 
+    - name: Remove honeypot.tgz
+      file:
+        path: /tmp/honeypot.tgz
+        state: absent
+
     - name: Disable python-honeypot.service
       systemd:
         name: python-honeypot.service
@@ -48,3 +53,19 @@
         path: /etc/ssh/sshd_config
         line: PasswordAuthentication yes
         regexp: 'PasswordAuthentication no'
+
+    - name: Change back ssh to default port
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        line: Port 22
+        regexp: 'Port 6000'
+
+    - name: Remove crontab
+      cron:
+        name: "Send data to the server"
+        state: absent
+
+    - name: Restart sshd
+      systemd:
+        name: sshd
+        state: restarted

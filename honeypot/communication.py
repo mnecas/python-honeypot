@@ -62,13 +62,10 @@ def get_ssh_log():
 
 if __name__ == "__main__":
     args = get_args()
-    print("Starting the server.")
     threads = []
     if args.prod:
-        print("Server started in production mode.")
         configuration.init('prod')
     else:
-        print("Server started in dev mode.")
         configuration.init('dev')
     send_list = {
         'ssh': get_ssh_log,

@@ -1,0 +1,5 @@
+honeypots:
+  hosts:
+    10.0.0.95:
+      ansible_port: 22
+      ansible_user: root
