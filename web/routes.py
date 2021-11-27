@@ -1,11 +1,9 @@
+
 from main import app, db
-from flask import Blueprint, render_template, request, jsonify
-from models import SSHLog, HTTPLog
+from flask import render_template, request, jsonify
+from models import SSHLog, HTTPLog, HTTPSLog
 from datetime import datetime
 import json
-
-#from web.models import HTTPLog
-#pattern = "\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9];))\b"
 
 
 @app.route('/', methods=['GET'])  # HOME PAGE
@@ -75,4 +73,19 @@ def api_http():
 
 @app.route('/api/https', methods=['GET', 'POST'])  # API-HTTPS ENDPOINT PAGE
 def api_https():
-    return "WORKING ON THAT"
+    if request.method == 'POST':        
+        print(request.json)
+        for logs in json.loads(request.json):
+            ip = logs.get("ip")
+            httpslogin = HTTPSLog(ip=ip, created_time = datetime.now())
+            db.session.add(httpslogin)
+            db.session.commit()
+            print(httpslogin)
+        #db.session.query(HTTPSLog).delete()
+        #db.session.commit()
+        return request.json
+    else:
+        resps = HTTPSLog.query.all()
+        print(resps)
+        return jsonify([i.https_serialize for i in resps])
+        

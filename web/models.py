@@ -44,3 +44,19 @@ class HTTPLog(db.Model):
             'created_time': dump_datetime(self.created_time)
         }
 
+class HTTPSLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ip = db.Column(db.String(100))
+    created_time = db.Column(db.DateTime(timezone=True), default=func.now())
+
+    def __repr__(self):
+        return f"HTTPSLog(id = {self.id}, ip = {self.ip}, created_time = {self.created_time})"
+
+
+    @property
+    def https_serialize(self):
+        return {
+            'id': self.id,
+            'ip': self.ip,
+            'created_time': dump_datetime(self.created_time)
+        }
