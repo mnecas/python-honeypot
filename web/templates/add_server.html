@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if warning %}
+<div class="alert alert-warning" role="alert">
+  {{ warning }}
+</div>
+{% endif %}
+<form actions='' method="POST">
+  <div class="form-group">
+    <label>IP Address of server</label>
+    <input type="text" name='ip' class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary float-right">Submit</button>
+</form>
+
+{% endblock %}

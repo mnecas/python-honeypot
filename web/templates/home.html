@@ -1,65 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-            crossorigin="anonymous"
-    />
-    <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-            crossorigin="anonymous"
-    />
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
 
-    <title>{% block title %}Home{% endblock %}</title>
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbar"
-    >
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbar">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" id="home" href="/"><b>Home</b></a>
-            <a class="nav-item nav-link" id="ssh" href="/ssh">SSH</a>
-            <a class="nav-item nav-link" id="http" href="/http">HTTP</a>
-            <a class="nav-item nav-link" id="https" href="/https">HTTPS</a>
-        </div>
-    </div>
-</nav>
+{% block content %}
+<ul class="list-group">
+{% for honeypot in honeypots%}
+  <li class="list-group-item">{{ honeypot.hostname }} <a href='/del?id={{ honeypot.id }}' class="float-right">Remove</a></li>
+{% endfor %}
+</ul>
+<a type="button" class="btn btn-primary float-right" href='/add'>Add</a>
 
-
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
-<script q
-        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"
-></script>
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"
-></script>
-<script
-        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"
-></script>
-<script
-        type="text/javascript"
-        src="{{ url_for('static', filename='index.js') }}"
-></script>
-</body>
-</html>
+{% endblock %}

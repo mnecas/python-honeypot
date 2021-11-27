@@ -60,3 +60,7 @@ class HTTPSLog(db.Model):
             'ip': self.ip,
             'created_time': dump_datetime(self.created_time)
         }
+
+class Honeypot(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    hostname = db.Column(db.String(100))
