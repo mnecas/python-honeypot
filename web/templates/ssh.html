@@ -2,6 +2,80 @@
 {% block title %}SSH{% endblock %}
 
 {% block content %}
+    <canvas id="myChart" width="400" height="325"></canvas>
 
+    <h2>Data</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ip</th>
+            <th scope="col">Created at</th>
+            <th scope="col">User</th>
+            <th scope="col">Password</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+
+    <script type="application/javascript">
+        const parseDataToGraph = function (data) {
+            let ipCount = {};
+            for (let i = 0; i < data.length; i++) {
+                const obj = data[i];
+                const ip = obj['password'];
+                if (!(ip in ipCount)) {
+                    ipCount[ip] = 0;
+                }
+                ipCount[ip]++;
+            }
+
+            return ipCount;
+        };
+        $.ajax({
+            'url': '/api/ssh',
+            'type': 'GET',
+            'success': function (data) {
+                const ipCount = parseDataToGraph(data);
+                console.log(data);
+                console.log(ipCount);
+                console.log(Object.keys(ipCount));
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(ipCount),
+                        datasets: [{
+                            label: '# Number of tried passwords',
+                            data: Object.values(ipCount),
+                            backgroundColor: getColors(Object.values(ipCount)),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+                const tbodyEl = document.getElementById('tbody');
+                for (let i = 0; i < data.length; i++) {
+                    const entity = data[i];
+                    console.log(entity);
+                    tbodyEl.innerHTML += '<tr>' +
+                        '<td>' + escapeHtml(entity['id']) + '</td>' +
+                        '<td>' + escapeHtml(entity['ip']) + '</td>' +
+                        '<td>' + escapeHtml(entity['created_time'][0]) + ':' + escapeHtml(entity['created_time'][1]) + '</td>' +
+                        '<td>' + escapeHtml(entity['user']) + '</td>' +
+                        '<td>' + escapeHtml(entity['password']) + '</td>' +
+                        '</tr>'
+                }
+
+            }
+        })
+    </script>
 
 {% endblock %}

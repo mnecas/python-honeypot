@@ -14,7 +14,6 @@
             href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
             crossorigin="anonymous"
     />
-
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -37,12 +36,17 @@
     </div>
 </nav>
 
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><script type="application/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
+<script
+        type="text/javascript"
+        src="{{ url_for('static', filename='chart_helper.js') }}"
+></script>
 
 <div class="container">
     {% block content %}
     {% endblock %}
 </div>
-<script q
+<script
         src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"
@@ -57,9 +61,6 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"
 ></script>
-<script
-        type="text/javascript"
-        src="{{ url_for('static', filename='index.js') }}"
-></script>
+
 </body>
 </html>
