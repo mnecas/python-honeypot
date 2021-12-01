@@ -8,7 +8,7 @@ def dump_datetime(value):
     return [value.strftime("%Y-%m-%d"), value.strftime("%H:%M:%S")]
 
 class SSHLog(db.Model):
-    # The the sqlalchemy database structure
+    # The sqlalchemy database structure
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String(100))
     ip = db.Column(db.String(100))

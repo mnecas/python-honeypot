@@ -42,7 +42,7 @@ def add_server():
                 }
             )
             if r.rc == 0:
-                # If the playbook went succesfully add the honeypot to the database
+                # If the playbook went successfully add the honeypot to the database
                 honeypot = Honeypot(hostname=user_ip)
                 db.session.add(honeypot)
                 db.session.commit()
@@ -70,7 +70,7 @@ def del_server():
             playbook='honeypot-cleanup.yml'
         )
         if r.rc == 0:
-            # If the playbook went succesfully remove the honeypot from the database
+            # If the playbook went successfully remove the honeypot from the database
             u = db.session.get(Honeypot, honeypot.id)
             db.session.delete(u)
             db.session.commit()

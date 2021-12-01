@@ -12,7 +12,7 @@ def start_https_honeypot(ip='0.0.0.0'):
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server_socket.bind((ip, configuration.settings.https_port))
         server_socket.listen(100)
-        # The wrapper which adds our ssl encryption the the comunication.
+        # The wrapper which adds our ssl encryption to the comunication.
         # The ssl keys we have already precreated.
         wrapped_socket = ssl.wrap_socket(server_socket, configuration.settings.ssl_key, configuration.settings.ssl_cert, True)
 

@@ -32,7 +32,7 @@ def get_http_log():
             print(configuration.settings.http_log)
             for i in f.readlines():
                 sp = i.split(';')
-                # Seneidng the user data.
+                # Sending the user data.
                 resp.append({
                     'time': sp[0],
                     'ip': sp[1]
@@ -84,19 +84,19 @@ if __name__ == "__main__":
     else:
         configuration.init('dev')
     # Dict of the services which the honeypot support.
-    # The key is the name of the servic and the value.
-    # is the functions which returns the data which will
+    # The key is the name of the service and the value.
+    # is the functions which return the data which will
     # be sent to the honeypot web.
     send_list = {
         'ssh': get_ssh_log,
         'http': get_http_log,
         'https': get_https_log,
     }
-    # Headers with which the request whill be sent so the
+    # Headers with which the request will be sent so the
     # web server will know that we are sending json data.
     headers = {'Content-Type': 'application/json',
                'Accept': 'application/json'}
-    # We go throught all ket/values in send_list and use the key
+    # We go through all key/values in send_list and use the key
     # as API endpoint and we get the data form the value function
     for key, get_data_fce in send_list.items():
         url = f"http://{args.server_ip}/api/{key}"

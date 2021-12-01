@@ -11,7 +11,7 @@ def get_args():
 
 
 if __name__ == "__main__":
-    # There is configuration file with init which will set the config setting 
+    # There is configuration file with which will set the config setting 
     # depending on which version of the program is running
     # The production is runing on proper linux directories like.
     # /var/log where are stored logs
