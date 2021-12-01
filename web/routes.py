@@ -95,8 +95,9 @@ def api_ssh():
             ip = loge.get("ip")
             user = loge.get("username")
             pswd = loge.get("password")
+            time = loge.get("time")
             login = SSHLog(user=user, ip=ip, password=pswd,
-                           created_time=datetime.now())
+                           created_time=datetime.fromtimestamp(float(str(time))))
             db.session.add(login)
             db.session.commit()
         # db.session.query(SSHLog).delete()
@@ -116,7 +117,8 @@ def api_http():
         print(request.json)
         for logs in json.loads(request.json):
             ip = logs.get("ip")
-            httplogin = HTTPLog(ip=ip, created_time=datetime.now())
+            time = logs.get("time")
+            httplogin = HTTPLog(ip=ip, created_time=datetime.fromtimestamp(float(str(time))))
             db.session.add(httplogin)
             db.session.commit()
             print(httplogin)
@@ -135,7 +137,7 @@ def api_https():
         print(request.json)
         for logs in json.loads(request.json):
             ip = logs.get("ip")
-            httpslogin = HTTPSLog(ip=ip, created_time=datetime.now())
+            httpslogin = HTTPSLog(ip=ip, created_time=datetime.fromtimestamp(float(str(time))))
             db.session.add(httpslogin)
             db.session.commit()
             print(httpslogin)

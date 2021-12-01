@@ -21,7 +21,8 @@ def get_http_log():
             for i in f.readlines():
                 sp = i.split(';')
                 resp.append({
-                    'ip': sp[0]
+                    'time': sp[0],
+                    'ip': sp[1]
                 })
         # Cleanup data from file
         # open(configuration.settings.http_log, 'w').close()
@@ -36,7 +37,8 @@ def get_https_log():
             for i in f.readlines():
                 sp = i.split(';')
                 resp.append({
-                    'ip': sp[0]
+                    'time': sp[0],
+                    'ip': sp[1]
                 })
         # Cleanup data from file
         # open(configuration.settings.http_log, 'w').close()
@@ -51,9 +53,10 @@ def get_ssh_log():
             for i in f.readlines():
                 sp = i.split(';')
                 resp.append({
-                    'ip': sp[0],
-                    'username': sp[1],
-                    'password': ';'.join(sp[2:]).rstrip(),
+                    'time': sp[0],
+                    'ip': sp[1],
+                    'username': sp[2],
+                    'password': ';'.join(sp[3:]).rstrip(),
                 })
         # Cleanup data from file
         # open(configuration.settings.ssh_log, 'w').close()
@@ -78,5 +81,6 @@ if __name__ == "__main__":
         url = f"http://{args.server_ip}/api/{key}"
         print("URL:", url)
         data = send_fce()
-        x = requests.post(url, data=json.dumps(data), headers=headers)
-        print("Resp:", x.text)
+        if data:
+            x = requests.post(url, data=json.dumps(data), headers=headers)
+            print("Resp:", x.text)

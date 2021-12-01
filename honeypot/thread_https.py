@@ -2,6 +2,7 @@ from honeypot import configuration
 
 import socket
 import ssl
+import time
 
 
 def start_https_honeypot(ip='0.0.0.0'):
@@ -19,8 +20,8 @@ def start_https_honeypot(ip='0.0.0.0'):
                 conn.sendall(b'HTTP/1.0 200 OK\n\nHello World')
                 conn.close()
                 with open(configuration.settings.https_log, "a") as f:
-                    print(addr[0]+";"+str(req))
-                    f.write(addr[0]+";"+str(req)+"\n")
+                    print(time.time(), addr[0]+";"+str(req))
+                    f.write(str(time.time()) + ";" + addr[0]+";"+str(req)+"\n")
             except Exception as e:
                 print(e)
 

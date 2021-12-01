@@ -3,6 +3,8 @@ from honeypot import configuration
 import socket
 import threading
 import paramiko
+import time
+
 
 LOGFILE_LOCK = threading.Lock()
 
@@ -16,8 +18,8 @@ class SSHServer(paramiko.ServerInterface):
         LOGFILE_LOCK.acquire()
         try:
             with open(configuration.settings.ssh_log, "a") as f:
-                print("Login: " + self.addr[0] + ";" + username + ";" + password)
-                f.write(self.addr[0]+";"+username + ";" + password + "\n")
+                print(str(time.time()) + ";" + "Login: " + self.addr[0] + ";" + username + ";" + password)
+                f.write(str(time.time()) + ";" +self.addr[0]+";"+username + ";" + password + "\n")
         finally:
             LOGFILE_LOCK.release()
         return paramiko.AUTH_FAILED
