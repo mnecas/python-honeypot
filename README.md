@@ -17,8 +17,7 @@ so you know to which IP you should connect to.
 
 ## Run
 
-By default the honepot runs on proper ports in dev version it run with prefix of 80
-so for example the ssh honeypot is opened on port 8022.
+By default the honeypot runs on proper ports. In the dev version it runs with prefix of 80 so for example the ssh honeypot is opened on port 8022. 
 `cd honeypot/`
 `python3 honeypot.py --prod`
 
