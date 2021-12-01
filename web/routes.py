@@ -28,9 +28,11 @@ def add_server():
             # Add host on which the playbook wil run
             add_host(user_ip)
 
+            # Get the web server IP so the honeypot knows on which server to send the data.
             hostname = socket.gethostname()
             local_ip = socket.gethostbyname(hostname)
 
+            # Start the ansible playbook which will deploy the honeypot on the server
             r = ansible_runner.run(
                 private_data_dir=os.path.join(os.path.dirname(os.path.abspath(
                     ".")), 'honeypot', 'deploy'),
@@ -40,11 +42,13 @@ def add_server():
                 }
             )
             if r.rc == 0:
+                # If the playbook went succesfully add the honeypot to the database
                 honeypot = Honeypot(hostname=user_ip)
                 db.session.add(honeypot)
                 db.session.commit()
                 return redirect('/')
             if r.rc == 4:
+                # Unreachable server
                 return render_template("add_server.html", warning="Could not connect to the server.")
             return render_template("add_server.html", warning="Some error in setup.")
 
@@ -59,12 +63,14 @@ def del_server():
         # Add host on which the playbook wil run and change ansible_port to 6000
         add_host(honeypot.hostname, 6000)
 
+        # Start the ansible playbook which will destroy the honeypot on the server
         r = ansible_runner.run(
             private_data_dir=os.path.join(os.path.dirname(os.path.abspath(
                 ".")), 'honeypot', 'deploy'),
             playbook='honeypot-cleanup.yml'
         )
         if r.rc == 0:
+            # If the playbook went succesfully remove the honeypot from the database
             u = db.session.get(Honeypot, honeypot.id)
             db.session.delete(u)
             db.session.commit()
@@ -92,23 +98,21 @@ def api_ssh():
         print(request.json)
         for loge in json.loads(request.json):
             print(loge)
+            # Get POST parameters from the request
             ip = loge.get("ip")
             user = loge.get("username")
             pswd = loge.get("password")
             time = loge.get("time")
+            # Add the HTTP log to the web db
             login = SSHLog(user=user, ip=ip, password=pswd,
                            created_time=datetime.fromtimestamp(float(str(time))))
             db.session.add(login)
             db.session.commit()
-        # db.session.query(SSHLog).delete()
-        # db.session.commit()
         return request.json
     else:
         resp = SSHLog.query.all()
         print(resp)
         return jsonify([i.serialize for i in resp])
-
-    # return render_template("api/ssh.html", values=log.query.all())
 
 
 @app.route('/api/http', methods=['GET', 'POST'])  # API-HTTP ENDPOINT PAGE
@@ -116,14 +120,14 @@ def api_http():
     if request.method == 'POST':
         print(request.json)
         for logs in json.loads(request.json):
+            # Get POST parameters from the request
             ip = logs.get("ip")
             time = logs.get("time")
+            # Add the HTTP log to the web db
             httplogin = HTTPLog(ip=ip, created_time=datetime.fromtimestamp(float(str(time))))
             db.session.add(httplogin)
             db.session.commit()
             print(httplogin)
-        # db.session.query(HTTPLog).delete()
-        # db.session.commit()
         return request.json
     else:
         resps = HTTPLog.query.all()
@@ -136,13 +140,14 @@ def api_https():
     if request.method == 'POST':
         print(request.json)
         for logs in json.loads(request.json):
+            # Get POST parameters from the request
             ip = logs.get("ip")
+            time = logs.get("time")
+            # Add the HTTPS log to the web db
             httpslogin = HTTPSLog(ip=ip, created_time=datetime.fromtimestamp(float(str(time))))
             db.session.add(httpslogin)
             db.session.commit()
             print(httpslogin)
-        # db.session.query(HTTPSLog).delete()
-        # db.session.commit()
         return request.json
     else:
         resps = HTTPSLog.query.all()

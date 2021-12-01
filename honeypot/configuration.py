@@ -7,7 +7,9 @@ def init(mode='dev'):
 
 class Config(object):
     def __init__(self, mode='dev'):
-
+        # This is configruation for hte whoel project
+        # in multiple places we can say if we want to run the prod/dev
+        # mode and this sets the proper paths/variables.
         self.prod_log_prefix = "/var/log/python-honeypot"
         self.MODES = {
             "prod": {

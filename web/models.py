@@ -2,11 +2,13 @@ from main import db
 from sqlalchemy.sql import func
 
 def dump_datetime(value):
+    # This is function for converting the datetime to the json format
     if value is None:
         return None
     return [value.strftime("%Y-%m-%d"), value.strftime("%H:%M:%S")]
 
 class SSHLog(db.Model):
+    # The the sqlalchemy database structure
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String(100))
     ip = db.Column(db.String(100))
@@ -15,7 +17,7 @@ class SSHLog(db.Model):
 
     def __repr__(self):
         return f"SSHLog(id = {self.id}, user = {self.user}, ip = {self.ip}, password = {self.password}, created_time = {self.created_time})"
-
+    # Serialization for the json dumps
     @property
     def serialize(self):
         return {
@@ -62,5 +64,6 @@ class HTTPSLog(db.Model):
         }
 
 class Honeypot(db.Model):
+    # List of honeypots
     id = db.Column(db.Integer, primary_key=True)
     hostname = db.Column(db.String(100))

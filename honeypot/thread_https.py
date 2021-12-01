@@ -6,11 +6,14 @@ import time
 
 
 def start_https_honeypot(ip='0.0.0.0'):
+    # This function is similar to the http instead we are running the socket with ssl wrapper
     try:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server_socket.bind((ip, configuration.settings.https_port))
         server_socket.listen(100)
+        # The wrapper which adds our ssl encryption the the comunication.
+        # The ssl keys we have already precreated.
         wrapped_socket = ssl.wrap_socket(server_socket, configuration.settings.ssl_key, configuration.settings.ssl_cert, True)
 
         while True:

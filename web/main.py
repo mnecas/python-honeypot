@@ -24,6 +24,8 @@ if __name__ == '__main__':
     db.init_app(app)
     with app.app_context():
         db.create_all()
+    # Depending on the arguments we start the honeypot https web server on port 5000 (default for flask)
+    # or start on deafult port for http 80.
     if args.prod:
         app.run(host='0.0.0.0', port=80)
     else:
